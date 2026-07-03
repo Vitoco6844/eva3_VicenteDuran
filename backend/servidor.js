@@ -59,7 +59,7 @@ const usuario = new mongoose.Schema({
 const Usuario = mongoose.model('Usuario', usuario, 'usuarios');
 
 const inmueble = new mongoose.Schema({
-    usuario: String,
+    usuario: mongoose.Schema.Types.ObjectId,    // El campo usuario guardará el _id de un usuario de MongoDB.
     tipo: String,
     direccion: String,
     ciudad: String,
@@ -74,7 +74,7 @@ const inmueble = new mongoose.Schema({
 const Inmueble = mongoose.model('Inmueble', inmueble, 'inmuebles');
 
 const pais = new mongoose.Schema({
-    nombre: String,
+    nombre: String,     
     iso2: String,
     iso3: String,
     codigoPais: String,
@@ -126,6 +126,32 @@ aplicacion.post('/guardarInmueble', async (request, response) => {
     }
 });
 
+// Se utiliza aggregate porque permite usar $lookup.
+// $lookup relaciona la colección inmuebles con usuarios,
+// para mostrar los datos del inmueble junto al usuario asociado.
+aplicacion.get('/inmuebles', async (request, response) => {
+    try {
+        const inmuebles = await Inmueble.aggregate([
+            {
+                $lookup: {
+                    from: 'usuarios',
+                    localField: 'usuario',
+                    foreignField: '_id',
+                    as: 'datosUsuario'
+                }
+            }
+        ]);
+        
+        if (!inmuebles || inmuebles.length === 0) {
+            return response.status(404).json({ mensaje: 'No se encontraron inmuebles registrados.' });
+        }
+
+        response.status(200).json(inmuebles);
+    } catch (error) {
+        response.status(500).json({ mensaje: 'No ha sido posible obtener los inmuebles: ', error })
+    }
+});
+
 // Crear método para obtener objetos desde la DB
 aplicacion.get('/usuarios', async (request, response) => {
     try {
@@ -136,11 +162,9 @@ aplicacion.get('/usuarios', async (request, response) => {
 
         response.status(200).json(usuarios);
     } catch (error) {
-        response.status(500).json({ mensaje: 'No ha sido posible obtener los datos: ', error })
+        response.status(500).json({ mensaje: 'No ha sido posible obtener los usuarios: ', error })
     }
-}
-
-);
+});
 
 aplicacion.get('/paises', async (request, response) => {
     try {
@@ -151,7 +175,7 @@ aplicacion.get('/paises', async (request, response) => {
 
         response.status(200).json(paises);
     } catch (error) {
-        response.status(500).json({ mensaje: 'No ha sido posible obtener los datos: ', error })
+        response.status(500).json({ mensaje: 'No ha sido posible obtener los países: ', error })
     }
 });
 
@@ -164,6 +188,6 @@ aplicacion.get('/comunas', async (request, response) => {
 
         response.status(200).json(comunas);
     } catch (error) {
-        response.status(500).json({ mensaje: 'No ha sido posible obtener los datos: ', error })
+        response.status(500).json({ mensaje: 'No ha sido posible obtener las comunas: ', error })
     }
 });
