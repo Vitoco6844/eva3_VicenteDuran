@@ -61,7 +61,7 @@ const Usuario = mongoose.model('Usuario', usuario, 'usuarios');
 const inmueble = new mongoose.Schema({
     usuario: String,
     tipo: String,
-    direccion: [direccion],
+    direccion: String,
     ciudad: String,
     region: String,
     metrosCuadrados: Number,
@@ -96,6 +96,30 @@ aplicacion.post('/guardarUsuario', async (request, response) => {
         const nuevoUsuario = new Usuario({ nombre, correo, rut, telefono, contrasena: contrasenaEncriptada, fechaNacimiento, genero, nacionalidad, direccion: jsonDireccion });
 
         await nuevoUsuario.save();
+        response.status(200).json({ mensaje: 'Datos almacenados correctamente.' });
+    } catch (excepcion) {
+        response.status(500).json({ mensaje: 'No se han podido almacenar los datos: ', excepcion });
+    }
+});
+
+aplicacion.post('/guardarInmueble', async (request, response) => {
+    try {
+        const { usuario, tipo, direccion, ciudad, region, metrosCuadrados, habitaciones, valor, estado, uso } = request.body;
+
+        const nuevoInmueble = new Inmueble({
+            usuario,
+            tipo,
+            direccion,
+            ciudad,
+            region,
+            metrosCuadrados,
+            habitaciones,
+            valor,
+            estado,
+            uso
+        });
+
+        await nuevoInmueble.save();
         response.status(200).json({ mensaje: 'Datos almacenados correctamente.' });
     } catch (excepcion) {
         response.status(500).json({ mensaje: 'No se han podido almacenar los datos: ', excepcion });
