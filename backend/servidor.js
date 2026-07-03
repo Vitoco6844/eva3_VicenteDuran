@@ -38,14 +38,22 @@ const direccion = new mongoose.Schema({
 // Crear el MODELO de datos
 const usuario = new mongoose.Schema({
     nombre: String,
-    email: String,
     rut: String,
+    correo: String,
     telefono: String,
-    contrasena: String,
-    nacimiento: Date,
-    genero: String,
+    fechaNacimiento: Date,
     nacionalidad: String,
-    direccion: [direccion]
+    genero: String,
+    direccion: [direccion],
+    contrasena: String,
+    fechaRegistro: {
+        type: Date,
+        default: Date.now
+    },
+    activo: {
+        type: Boolean,
+        default: true
+    }
 });
 // Crear un OBJETO en base al MODELO usuario
 const Usuario = mongoose.model('Usuario', usuario, 'usuarios');
@@ -63,14 +71,14 @@ const Pais = mongoose.model('Pais', pais, 'paises');
 // Crear el método para CREAR esos objetos en DB
 aplicacion.post('/guardarUsuario', async (request, response) => {
     try {
-        const { nombre, email, rut, telefono, contrasena, nacimiento, genero, nacionalidad, direccion } = request.body;
+        const { nombre, correo, rut, telefono, contrasena, fechaNacimiento, genero, nacionalidad, direccion } = request.body;
 
         const saltRounds = 10;
         const contrasenaEncriptada = await bcrypt.hash(contrasena, saltRounds);
 
         const jsonDireccion = JSON.parse(direccion);
 
-        const nuevoUsuario = new Usuario({ nombre, email, rut, telefono, contrasena: contrasenaEncriptada, nacimiento, genero, nacionalidad, direccion: jsonDireccion });
+        const nuevoUsuario = new Usuario({ nombre, correo, rut, telefono, contrasena: contrasenaEncriptada, fechaNacimiento, genero, nacionalidad, direccion: jsonDireccion });
 
         await nuevoUsuario.save();
         response.status(200).json({ mensaje: 'Datos almacenados correctamente.' });
