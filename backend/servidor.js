@@ -58,6 +58,21 @@ const usuario = new mongoose.Schema({
 // Crear un OBJETO en base al MODELO usuario
 const Usuario = mongoose.model('Usuario', usuario, 'usuarios');
 
+const inmueble = new mongoose.Schema({
+    usuario: String,
+    tipo: String,
+    direccion: [direccion],
+    ciudad: String,
+    region: String,
+    metrosCuadrados: Number,
+    habitaciones: Number,
+    valor: Number,
+    estado: String,
+    uso: String
+});
+
+const Inmueble = mongoose.model('Inmueble', inmueble, 'inmuebles');
+
 const pais = new mongoose.Schema({
     nombre: String,
     iso2: String,
