@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css/brite.css">
+    <link rel="stylesheet" href="./css/estilos.css">
+    <link rel="shortcut icon" href="./assets/images/among_us_player_red_icon_156942.png" type="image/x-icon">
+    <link href="https://cdn.datatables.net/v/dt/dt-2.3.8/datatables.min.css" rel="stylesheet"
+        integrity="sha384-1BvCnyKidMPIGQGjvMn+w+90hHBhYJtF+R7os4NX2Abe7tSxWQadHRTSH5qb559A" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"
+        integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-2.3.8/datatables.min.js"
+        integrity="sha384-kjkli48Tmhwhaghq0IIRm8gFmMdnihfu1ywAOyyGWYMsoZZi/6AX2fWzpsqahoFw"
+        crossorigin="anonymous"></script>
+    <script src="./scripts/formulario_inmueble.js"></script>
+
+    <title>Formulario Inmueble</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="light">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="./inicio.html" class="nav-link">Inicio</a></li>
+                <li class="nav-item"><a href="./formulario.html" class="nav-link">Formulario de Registro</a></li>
+                <li class="nav-item"><a href="./formulario_inmueble.html" class="nav-link">Registro de Inmuebles</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container principal">
+        <form id="registroInmueble">
+            <p class="h3">Formulario de Registro de Inmuebles</p>
+            <br>
+
+            <div class="container">
+                <p class="h5">Datos del Inmueble</p>
+                <hr>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="selectUsuario" class="form-label">Usuario:</label>
+                        <select name="usuario" id="selectUsuario" class="form-select" onchange="validarCampo(this)">
+                            <option value="" selected>Seleccione un usuario</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="selectTipo" class="form-label">Tipo:</label>
+                        <select name="tipo" id="selectTipo" class="form-select" onchange="validarCampo(this)">
+                            <option value="" selected>Seleccione tipo</option>
+                            <option value="Casa">Casa</option>
+                            <option value="Departamento">Departamento</option>
+                            <option value="Terreno">Terreno</option>
+                            <option value="Local">Local</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="inputDireccion" class="form-label">Dirección:</label>
+                        <input type="text" name="direccion" id="inputDireccion" class="form-control"
+                            onchange="validarCampo(this)">
+                    </div>
+                    <div class="col">
+                        <label for="inputCiudad" class="form-label">Ciudad:</label>
+                        <input type="text" name="ciudad" id="inputCiudad" class="form-control"
+                            onchange="validarCampo(this)">
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="inputRegion" class="form-label">Región:</label>
+                        <input type="text" name="region" id="inputRegion" class="form-control"
+                            onchange="validarCampo(this)">
+                    </div>
+                    <div class="col">
+                        <label for="inputMetros" class="form-label">Metros Cuadrados:</label>
+                        <input type="number" name="metrosCuadrados" id="inputMetros" class="form-control"
+                            onchange="validarCampo(this)">
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="inputHabitaciones" class="form-label">Habitaciones:</label>
+                        <input type="number" name="habitaciones" id="inputHabitaciones" class="form-control"
+                            onchange="validarCampo(this)">
+                    </div>
+                    <div class="col">
+                        <label for="inputValor" class="form-label">Valor:</label>
+                        <input type="number" name="valor" id="inputValor" class="form-control"
+                            onchange="validarCampo(this)">
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="selectEstado" class="form-label">Estado:</label>
+                        <select name="estado" id="selectEstado" class="form-select" onchange="validarCampo(this)">
+                            <option value="" selected>Seleccione estado</option>
+                            <option value="Disponible">Disponible</option>
+                            <option value="Vendido">Vendido</option>
+                            <option value="Arrendado">Arrendado</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="selectUso" class="form-label">Uso:</label>
+                        <select name="uso" id="selectUso" class="form-select" onchange="validarCampo(this)">
+                            <option value="" selected>Seleccione uso</option>
+                            <option value="Habitacional">Habitacional</option>
+                            <option value="Comercial">Comercial</option>
+                            <option value="Industrial">Industrial</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col d-flex justify-content-end">
+                        <input type="reset" class="btn btn-secondary me-2" value="Cancelar">
+                        <button type="button" class="btn btn-primary"
+                            onclick="validarFormularioInmueble()">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
